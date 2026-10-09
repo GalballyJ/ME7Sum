@@ -125,7 +125,7 @@ make test   # optional
 
 With read access to `ecu-corpus`, fetch the submodule at its pinned commit with `make corpus`; `make corpus-bump` moves it to the corpus head (commit the change yourself). The submodule URL is HTTPS; to use SSH, run `git config --global url.git@github.com:.insteadOf https://github.com/`. Without access, `corpus/` stays empty and `make test` skips the corpus images. `XDFKIT_CORPUS` points the tests at another corpus checkout, and `XDFKIT_REQUIRE_CORPUS=1` (set in CI) makes a missing corpus a failure. See xdfkit's `docs/corpus.md` for the corpus specification.
 
-`make bins` is temporary and will be removed: it fills a gitignored `bins/` with symlinks under the names the old committed `bins/` directory used (`scripts/bins-compat.tsv` maps them to corpus images), for workflows that still read `bins/`. New work should use `corpus/images/` instead.
+`make bins` is temporary and will be removed: it fills a gitignored `bins/` with symlinks under the names the old committed `bins/` directory used (`scripts/bins-compat.tsv` maps them to corpus images), for workflows that still read `bins/`. New work should use `corpus/images/<part>/NAME.bin` (`<part>` is the first 9 characters of the part number) instead.
 
 ---
 

@@ -18,16 +18,16 @@ link() {
   fi
 }
 
-for l in corpus/*.bin; do
-  if [ -L "$l" ]; then
-    link "../corpus/$(readlink "$l")" "${l##*/}"
-  fi
-done
+image() {
+  part=${1%%-*}
+  base=$(printf '%.9s' "$part")
+  printf '../corpus/images/%s/%s.bin' "$base" "$1"
+}
 awk -F'\t' 'NR>1 {print $1}' corpus/corpus.tsv | while read -r name; do
-  link "../corpus/images/$name.bin" "$name.bin"
+  link "$(image "$name")" "$name.bin"
 done
 awk -F'\t' 'NR>1 {print $1, $2}' scripts/bins-compat.tsv | while read -r old name; do
-  link "../corpus/images/$name.bin" "$old.bin"
+  link "$(image "$name")" "$old.bin"
 done
 for f in testdata/modified/*; do
   link "../$f" "${f##*/}"

@@ -22,8 +22,10 @@ check() {
 }
 
 if [ -f "$corpus/corpus.tsv" ]; then
-  for name in $(awk -F'\t' 'NR>1 && $8=="ok" {print $1}' "$corpus/corpus.tsv"); do
-    check "$corpus/images/$name.bin" "$name"
+  awk -F'\t' 'NR>1 && $8=="ok" {print $1}' "$corpus/corpus.tsv" | while read -r name; do
+    part=${name%%-*}
+    base=$(printf '%.9s' "$part")
+    check "$corpus/images/$base/$name.bin" "$name"
   done
 elif [ "$XDFKIT_REQUIRE_CORPUS" = 1 ]; then
   echo "no corpus at $corpus and XDFKIT_REQUIRE_CORPUS=1 (see BUILD.md)" >&2
